@@ -1,5 +1,7 @@
 const getRootHandler = ('/', (req, res) => {
-    res.send('Home page');
+    res.render('Home-page', {
+        title: 'Home page'
+    });
 });
 
 module.exports = getRootHandler;

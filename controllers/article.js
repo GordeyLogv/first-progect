@@ -1,13 +1,19 @@
 const getArticleHandler = ('/article', (req, res) => {
-    res.send('Article page');
+    res.render('Article', {
+    title: 'Article'
+    });
 });
 
 const postArticleHandler = ('/article', (req, res) => {
-    res.send('Article page');
+    res.render('Article', {
+    title: 'Article'
+    });
 });
 
 const deleteArticleHandler = ('/article/:id', (req, res) => {
-    res.send('Article page');
+    res.render('Article', {
+    title: 'Article'
+    });
 });
 
 module.exports = {
