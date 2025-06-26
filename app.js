@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const router = require('./routes/index');
 
-const PORT = 3000;
+const PORT = 4000;
 
 const app = express();
 const hbs = exphbs.create({

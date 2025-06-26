@@ -1,6 +1,7 @@
 const getRootHandler = ('/', (req, res) => {
     res.render('Home-page', {
-        title: 'Home page'
+        title: 'Home page',
+        isHomePage: true
     });
 });
 
