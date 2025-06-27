@@ -1,5 +1,6 @@
-const express = require('express');
-const Article = require('../models/article');
+const fs = require('fs');
+const path = require('path');
+const { json } = require('stream/consumers');
 
 const getAddArticle = ('/add-article', (req, res) => {
     res.render('Add-article', {
@@ -8,13 +9,35 @@ const getAddArticle = ('/add-article', (req, res) => {
     });
 });
 
-const postAddArticle = ('/add-article', async (req, res) => {
+const postAddArticle = ('/add-article', (req, res) => {
 
-    const article = new Article(req.body.title, req.body.time, req.body.image, req.body.text);
+    const newData = req.body;
 
-    article.save();
+    const pathFileDataBase = path.join(__dirname, '..', 'localDataBase', 'article.json');
 
-    res.redirect('/article')
+    fs.readFile(pathFileDataBase, 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(500);
+        } else {
+            let jsonArr = [];
+
+            try {
+                jsonArr = JSON.parse(data);
+            } catch (error) {
+                res.status(500);
+            };
+
+            jsonArr.push(newData);
+
+            fs.writeFile(pathFileDataBase, JSON.stringify(jsonArr, null, 2), (err) => {
+                if (err) {
+                    res.status(500);
+                }
+            res.redirect('/article');
+            });
+        };
+    });
 
 });
 
