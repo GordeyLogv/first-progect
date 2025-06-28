@@ -2,11 +2,11 @@ const fs = require('fs/promises');
 const path = require('path');
 
 
-
-const getAddArticle = ('/add-article', (req, res) => {
+const getAddArticle = ('/add-article', async (req, res) => {
+    
     res.render('Add-article', {
         title: 'Add article',
-        isAddArticlePage: true 
+        isAddArticlePage: true,
     });
 });
 

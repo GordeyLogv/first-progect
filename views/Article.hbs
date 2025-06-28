@@ -1,1 +1,27 @@
 <h1>Article page</h1>
+
+{{#if allArticle.length}}
+<div class="row">
+{{#each allArticle}}
+
+    <div class="col s4">
+        <div class="card limits">
+            <div class="card-image">
+                <img src="{{img}}" alt="{{title}}">
+            </div>
+            <div class="card-content">
+                <span class="card-title truncate">{{title}}, {{time}}</span>
+                <p class="truncate">{{text}}</p>
+            </div>
+            <div class="card-action">
+                <a href="#">Open in full</a>
+            </div>
+        </div>
+    </div>
+
+{{/each}}
+</div>
+{{else}}
+
+<p>Article undefined</p>
+{{/if}}
