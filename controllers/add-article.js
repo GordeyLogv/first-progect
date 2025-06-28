@@ -21,7 +21,17 @@ const postAddArticle = ('/add-article', async (req, res) => {
         res.status(500);
         res.send('Error to readFile')
     }
-    data.push(req.body);
+    
+    const id = data.reduce((max, article) => {
+      return article.id && article.id > max ? article.id : max;
+    }, 0);
+
+    const newArrArticle = {
+      id: id + 1,
+      ...req.body
+    }
+
+    data.push(newArrArticle);
 
     await fs.writeFile(pathToLocalDataBase, JSON.stringify(data, null, 2))
       .then(() => res.redirect('/article'))

@@ -8,8 +8,6 @@ const getArticleHandler = ('/article', async (req, res) => {
     let allArticle = await fs.readFile(pathToLocalDataBase, 'utf-8')
       .then(allArticle => JSON.parse(allArticle))
       .catch(() => { })
-
-    console.log(allArticle);
     
     res.render('Article', {
         title: 'Article',
@@ -19,14 +17,30 @@ const getArticleHandler = ('/article', async (req, res) => {
 
 });
 
-const deleteArticleHandler = ('/article/:id', (req, res) => {
-    res.render('Article', {
-        title: 'Article',
-        isArticlePage: true
-    });
-});
+const getArticleTitleHandler = ('/:id', async (req, res) => {
+
+    // let allArticle = await fs.readFile(pathToLocalDataBase, 'utf-8')
+    //   .then(allArticle => JSON.parse(allArticle))
+    //   .catch(() => { })
+
+    // let serchTitle = JSON.stringify(req.params.title);
+
+
+
+    // console.log(serchTitle);
+    
+    res.render('ArticleID')
+})
+
+// const deleteArticleHandler = ('/article/:id', (req, res) => {
+//     res.render('Article', {
+//         title: 'Article',
+//         isArticlePage: true
+//     });
+// });
 
 module.exports = {
     getArticleHandler,
-    deleteArticleHandler
+    getArticleTitleHandler,
+    // deleteArticleHandler
 };
