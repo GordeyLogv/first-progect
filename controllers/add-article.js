@@ -1,44 +1,34 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
-const { json } = require('stream/consumers');
+
+
 
 const getAddArticle = ('/add-article', (req, res) => {
     res.render('Add-article', {
-    title: 'Add article',
-    isAddArticlePage: true 
+        title: 'Add article',
+        isAddArticlePage: true 
     });
 });
 
-const postAddArticle = ('/add-article', (req, res) => {
+const pathToLocalDataBase = path.join(__dirname, '..', 'localDataBase', 'article.json')
 
-    const newData = req.body;
+const postAddArticle = ('/add-article', async (req, res) => {
+    
+    const data = await fs.readFile(pathToLocalDataBase, 'utf-8')
+      .then(data => JSON.parse(data))
+      .catch(() => { });
+    if (!data) { 
+        res.status(500);
+        res.send('Error to readFile')
+    }
+    data.push(req.body);
 
-    const pathFileDataBase = path.join(__dirname, '..', 'localDataBase', 'article.json');
-
-    fs.readFile(pathFileDataBase, 'utf-8', (err, data) => {
-        if (err) {
-            console.log(err);
-            res.status(500);
-        } else {
-            let jsonArr = [];
-
-            try {
-                jsonArr = JSON.parse(data);
-            } catch (error) {
-                res.status(500);
-            };
-
-            jsonArr.push(newData);
-
-            fs.writeFile(pathFileDataBase, JSON.stringify(jsonArr, null, 2), (err) => {
-                if (err) {
-                    res.status(500);
-                }
-            res.redirect('/article');
-            });
-        };
-    });
-
+    await fs.writeFile(pathToLocalDataBase, JSON.stringify(data, null, 2))
+      .then(() => res.redirect('/article'))
+      .catch(() => {
+        res.status(500);
+        res.send('Error to writeFile')        
+      })
 });
 
 module.exports = {
