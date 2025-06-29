@@ -12,24 +12,27 @@ const getAddArticle = ('/add-article', async (req, res) => {
 
 });
 
-const pathToLocalDataBase = path.join(__dirname, '..', 'localDataBase', 'article.json')
-
 const postAddArticle = ('/add-article', async (req, res) => {
     
-    const data = await getAllArticle();
+    try {
+        const data = await getAllArticle();
     
-    const id = data.reduce((max, article) => {
-      return article.id && article.id > max ? article.id : max;
-    }, 0);
+        const id = data.reduce((max, article) => {
+          return article.id && article.id > max ? article.id : max;
+        }, 0);
 
-    const newArrArticle = {
-      id: id + 1,
-      ...req.body
+        const newArrArticle = {
+          id: id + 1,
+          ...req.body
+        }
+
+        data.push(newArrArticle);
+
+        await postAllArticle(data, res);
+    } catch (error) {
+        res.status(500);
+        res.send(`Ошибка на сервере: ${error}`)
     }
-
-    data.push(newArrArticle);
-
-    await postAllArticle(data, res);
 });
 
 module.exports = {
