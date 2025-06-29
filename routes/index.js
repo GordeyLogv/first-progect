@@ -1,5 +1,5 @@
 const express = require('express');
-const rootRouter = require('./root')
+const rootRouter = require('./root');
 const aboutRouter = require('./about');
 const articleRouter = require('./article');
 const addArticleRouter = require('./add-article');

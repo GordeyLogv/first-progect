@@ -1,14 +1,12 @@
 const express = require('express');
 const {
     getArticleHandler,
-    getArticleTitleHandler,
-    // deleteArticleHandler
+    getArticleToIdHandler,
 } = require('../controllers/article');
 
 const router = express.Router();
 
 router.get('/', getArticleHandler);
-router.get('/:id', getArticleTitleHandler)
-// router.delete('/:id', deleteArticleHandler);
+router.get('/:id', getArticleToIdHandler)
 
 module.exports = router;

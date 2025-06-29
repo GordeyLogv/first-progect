@@ -1,13 +1,9 @@
-const fs = require('fs/promises');
-const path = require('path');
-
-const pathToLocalDataBase = path.join(__dirname, '..', 'localDataBase', 'article.json')
+const getAllArticle = require('../models/get-all-article');
+const findById = require('../models/find-by-id');
 
 const getArticleHandler = ('/article', async (req, res) => {
     
-    let allArticle = await fs.readFile(pathToLocalDataBase, 'utf-8')
-      .then(allArticle => JSON.parse(allArticle))
-      .catch(() => { })
+    let allArticle = await getAllArticle();
     
     res.render('Article', {
         title: 'Article',
@@ -17,30 +13,21 @@ const getArticleHandler = ('/article', async (req, res) => {
 
 });
 
-const getArticleTitleHandler = ('/:id', async (req, res) => {
+const getArticleToIdHandler = ('/article/:id', async (req, res) => {
 
-    // let allArticle = await fs.readFile(pathToLocalDataBase, 'utf-8')
-    //   .then(allArticle => JSON.parse(allArticle))
-    //   .catch(() => { })
+    let id = req.params.id
 
-    // let serchTitle = JSON.stringify(req.params.title);
+    let allArticle = await getAllArticle();
 
+    let article = await findById(allArticle, id);
 
-
-    // console.log(serchTitle);
-    
-    res.render('ArticleID')
+    res.render('ArticleID', {
+        title: `Article: ${article.title}`,
+        article
+    });
 })
-
-// const deleteArticleHandler = ('/article/:id', (req, res) => {
-//     res.render('Article', {
-//         title: 'Article',
-//         isArticlePage: true
-//     });
-// });
 
 module.exports = {
     getArticleHandler,
-    getArticleTitleHandler,
-    // deleteArticleHandler
+    getArticleToIdHandler,
 };
