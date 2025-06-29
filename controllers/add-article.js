@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const getAllArticle = require('../models/get-all-article');
+const postAllArticle = require('../models/post-all-article');
 
 const getAddArticle = ('/add-article', async (req, res) => {
     
@@ -28,12 +29,7 @@ const postAddArticle = ('/add-article', async (req, res) => {
 
     data.push(newArrArticle);
 
-    await fs.writeFile(pathToLocalDataBase, JSON.stringify(data, null, 2))
-      .then(() => res.redirect('/article'))
-      .catch(() => {
-        res.status(500);
-        res.send('Error to writeFile')        
-      })
+    await postAllArticle(data, res);
 });
 
 module.exports = {
